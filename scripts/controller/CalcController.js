@@ -8,16 +8,33 @@ class CalcController {
         this._currentDate;
         this.initialize();
     }
-    initialize(){
-    
+    //arrow function para ficar recarregando o horário de 1 em 1 sec
+    initialize(){  
 
      setInterval(()=>{ 
-         this.displayDate = this.currentDate.toLocaleDateString(this.locale);
-         this.displayTime = this.currentDate.toLocaleTimeString(this.locale);
+      this.setDisplayTime()
 
-     },1000);
+     },1000);   
 
-    } 
+
+    }
+    initButtonsEvents(){
+     //Vai selecionar todos os "G" de buttons e todos os G de #parts         
+       let buttons = document.querySelectorAll('#buttons > g, #parts > g')
+
+    }
+
+    //funcao para puxar a data e hora
+    setDisplayTime(){
+        this.displayDate = this.currentDate.toLocaleDateString(this.locale, {
+            month: "long",
+            day:    "2-digit",
+            year: "2-digit"
+        });
+        this.displayTime = this.currentDate.toLocaleTimeString(this.locale);
+
+
+    }
     get displayTime(){
         return this._timeEl.innerHTML;
 
