@@ -4,9 +4,9 @@ class CalcController {
         this._displayCalcEl = document.querySelector("#display");
         this._dateEl = document.querySelector("#data");
         this._timeEl = document.querySelector("#hora");
-
         this._currentDate;
         this.initialize();
+        this.initButtonsEvents();
     }
     //arrow function para ficar recarregando o horário de 1 em 1 sec
     initialize(){  
@@ -18,11 +18,39 @@ class CalcController {
 
 
     }
+    addEventListennerAll(element, events, fn){
+
+        events.split(' ').forEach(events =>{
+            element.addEventListenner(events, fn, false);
+
+        });
+     }
     initButtonsEvents(){
+
      //Vai selecionar todos os "G" de buttons e todos os G de #parts         
-       let buttons = document.querySelectorAll('#buttons > g, #parts > g')
+
+       let buttons = document.querySelectorAll("#buttons > g, #parts > g");
+       buttons.forEach((btn, index) => {
+           // Só suporta um evento, e ele só possui o click
+           //btn.addEventListener('click', e => {
+
+           this.addEventListennerAll("click, drag")
+
+               // vai pegar o nome da classe(string)
+               //console.log(btn.className.baseVal);
+                 
+               // vai retirar o "btn" da string
+               console.log(btn.className.baseVal.replace("btn-",""));
+           })
 
     }
+   
+        this.addEventListennerAll(btn, "mouseover mouseup mousedown", e => {
+
+            bnt.style.cursor = "pointer";
+        });
+ }
+
 
     //funcao para puxar a data e hora
     setDisplayTime(){
