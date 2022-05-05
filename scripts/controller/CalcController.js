@@ -12,57 +12,42 @@ class CalcController {
     initialize(){  
 
      setInterval(()=>{ 
-      this.setDisplayTime()
 
-     },1000);   
+        this.setDisplayTime();
 
+        setInterval(()=>{
+        this.setDisplayTime();
+        },1000);  
 
-    }
-    addEventListennerAll(element, events, fn){
-
-        events.split(' ').forEach(events =>{
-            element.addEventListenner(events, fn, false);
-
-        });
-     }
-    initButtonsEvents(){
-
-     //Vai selecionar todos os "G" de buttons e todos os G de #parts         
-
-       let buttons = document.querySelectorAll("#buttons > g, #parts > g");
-       buttons.forEach((btn, index) => {
-           // Só suporta um evento, e ele só possui o click
-           //btn.addEventListener('click', e => {
-
-           this.addEventListennerAll("click, drag")
-
-               // vai pegar o nome da classe(string)
-               //console.log(btn.className.baseVal);
-                 
-               // vai retirar o "btn" da string
-               console.log(btn.className.baseVal.replace("btn-",""));
-           })
+        })
 
     }
-   
-        this.addEventListennerAll(btn, "mouseover mouseup mousedown", e => {
+ 
+     initButtonsEvents(){       
 
-            bnt.style.cursor = "pointer";
-        });
- }
+   let buttons = document.querySelectorAll("#buttons >g, #parts >g");
+
+     buttons.forEach((btn, index)=> {
+
+         btn.addEventListener('click', e => {
+             console.log(btn.className.baseVal.replace("btn-", ""));
+         });
+     })
+     
+}
+
+//funcao para puxar a data e hora
+setDisplayTime(){
+    this.displayDate = this.currentDate.toLocaleDateString(this.locale, {
+        month: "long",
+        day:    "2-digit",
+        year: "2-digit"
+    });
+    this.displayTime = this.currentDate.toLocaleTimeString(this.locale);
 
 
-    //funcao para puxar a data e hora
-    setDisplayTime(){
-        this.displayDate = this.currentDate.toLocaleDateString(this.locale, {
-            month: "long",
-            day:    "2-digit",
-            year: "2-digit"
-        });
-        this.displayTime = this.currentDate.toLocaleTimeString(this.locale);
+}
 
-
-    }
     get displayTime(){
         return this._timeEl.innerHTML;
 
@@ -94,4 +79,4 @@ class CalcController {
     set currentDate(hora){
         this._currentDate = hora;
     }
-}
+ }
