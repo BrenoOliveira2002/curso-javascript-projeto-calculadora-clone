@@ -44,9 +44,53 @@ class CalcController {
 
     }
 
+    getLastOperation() {
+
+       return this._operation[this._operation.length-1];
+
+    }
+
+    setLastOperation(value){
+
+        this._operation[this._operation.length - 1] = value;
+
+    }
+
+    isOperator(value) {
+
+     return (['+', '-', '*', '/', ].indexOf(value) > -1)
+
+
+    }
+
     addOperation(value) {
 
-        this._operation.push(value);
+        if (isNaN(this.getLastOperation())){
+            // string here
+            if (this.isOperator(value)) {
+                // operator change
+                this.setLastOperation(value);
+            }
+
+            else if (isNaN(value)) {
+
+                console.log(value);
+
+            }
+            
+            else {  
+
+                this._operation.push(value);
+
+            }
+
+        } else {
+            //number here
+            let newValue = this.getLastOperation().toString() + value.toString();
+            this.setLastOperation(parseInt(newValue));
+
+
+        }
 
         console.log(this._operation);
 
@@ -77,31 +121,43 @@ class CalcController {
 
         case 'soma':
             
-            this.clearEntry();
+            this.addOperation('+');
 
         break;
 
         case 'subtracao':
             
-            this.clearEntry();
+            this.addOperation('-');
 
         break;
 
         case 'divisao':
             
-            this.clearEntry();
+            this.addOperation('/');
 
         break;
 
         case 'multiplicacao':
             
-            this.clearEntry();
+            this.addOperation('*');
 
         break;
 
         case 'igual':
             
-            this.clearEntry();
+            this.addOperation('=');
+
+        break;
+        
+        case 'porcento':
+            
+            this.addOperation('%');
+
+        break;
+
+        case '.':
+
+            this.addOperation('.');
 
         break;
 
