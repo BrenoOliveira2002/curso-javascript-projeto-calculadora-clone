@@ -14,6 +14,7 @@ class CalcController {
         setInterval(()=>{
         this.setDisplayTime();
         },1000);  
+        this.setLastNumberToDisplay();
 
      }
 
@@ -30,11 +31,13 @@ class CalcController {
     clearAll(){ 
 
         this._operation = [];
+        this.setLastNumberToDisplay();
     }
     
     clearEntry() {
 
         this._operation.pop();
+        this.setLastNumberToDisplay();
 
     }
 
@@ -52,7 +55,7 @@ class CalcController {
 
     isOperator(value) {
 
-     return (['+', '-', '*', '/', ].indexOf(value) > -1)
+     return (['+', '-', '*', '/', '%' ].indexOf(value) > -1)
 
 
     }
@@ -67,15 +70,31 @@ class CalcController {
 
     }
     
-    calc(){
+    calc(){ 
 
-        let last = this._operation.pop();
+        let last = "";
+
+        if (this._operation.length > 3) {
+
+        last = this._operation.pop();
+        }
+        
 
         let result = eval(this._operation.join(""));
 
-        this._operation = [result, last];
-        this.setLastNumberToDisplay();
+        if (last == '%') {
 
+            result /= 100;
+
+            this._operation = [result];
+        }
+        else {
+
+        this._operation = [result,];
+
+        if (last) this._operation.push(last);
+        }
+        this.setLastNumberToDisplay();
     }
     setLastNumberToDisplay(){
 
@@ -89,6 +108,7 @@ class CalcController {
             }
         
         }
+        if(!lastNumber) lastNumber = 0;
         this.displayCalc = lastNumber;
  }
     addOperation(value) {
@@ -185,7 +205,7 @@ class CalcController {
 
         case 'igual':
             
-            this.addOperation('=');
+            this.calc();
 
         break;
         
