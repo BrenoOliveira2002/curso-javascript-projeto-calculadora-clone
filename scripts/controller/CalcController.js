@@ -11,16 +11,10 @@ class CalcController {
     }
     //arrow function para ficar recarregando o horário de 1 em 1 sec
     initialize(){  
-
-     setInterval(()=>{ 
-
-        this.setDisplayTime();
-
         setInterval(()=>{
         this.setDisplayTime();
         },1000);  
 
-        })
      }
 
     addEventListenerAll(element, events, fn,) {
@@ -80,13 +74,23 @@ class CalcController {
         let result = eval(this._operation.join(""));
 
         this._operation = [result, last];
+        this.setLastNumberToDisplay();
 
     }
     setLastNumberToDisplay(){
 
-        
-    }
+        let lastNumber;
 
+        for (let i = this._operation.length-1; i >= 0; i-- ) {
+
+            if (!this.isOperator(this._operation[i])){ 
+                lastNumber = this._operation[i];
+                break;
+            }
+        
+        }
+        this.displayCalc = lastNumber;
+ }
     addOperation(value) {
 
         if (isNaN(this.getLastOperation())){
@@ -105,6 +109,7 @@ class CalcController {
             else {  
 
                 this.pushOperation(value);
+                this.setLastNumberToDisplay();
 
             }
 
