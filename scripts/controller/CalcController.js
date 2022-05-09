@@ -13,12 +13,40 @@ class CalcController {
         this.initButtonsEvents();
         this.initKeyboard();
     }
+    pasteFromClipeBoard(){
+
+        document.addEventListener('paste', e=> {
+
+        let text = e.clipboardData.getData('Text');
+
+        this.displayCalc = parseFloat(text);
+
+        })
+    }
+
+    copyToClipBoard(){
+
+        let input = document.createElement('input');
+
+        input.value = this.displayCalc;
+        
+        document.body.appendChild(input); 
+
+        input.select();
+
+        document.execCommand("copy");
+
+        input.remove();
+
+    }
+
     //arrow function para ficar recarregando o horário de 1 em 1 sec
     initialize(){  
         setInterval(()=>{
         this.setDisplayTime();
         },1000);  
         this.setLastNumberToDisplay();
+        this.pasteFromClipeBoard();
 
      }
 
@@ -84,6 +112,10 @@ class CalcController {
                     this.addOperation(parseInt(e.key));
         
                 break;
+
+                case 'c':
+                 if (e.ctrlKey) this.copyToClipBoard();
+                 break;
         
             }
          })
